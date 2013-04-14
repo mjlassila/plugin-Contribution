@@ -103,17 +103,17 @@ class Contribution_TypesController extends Omeka_Controller_AbstractActionContro
     
     protected function  _getAddSuccessMessage($record)
     {
-        return 'Type successfully added.';
+        return __('Type successfully added.');
     }
 
     protected function _getEditSuccessMessage($record)
     {
-        return 'Type successfully updated.';
+        return __('Type successfully updated.');
     }
 
     protected function _getDeleteSuccessMessage($record)
     {
-        return 'Type deleted.';
+        return __('Type deleted.');
     }
     
     private function _processForm($record)

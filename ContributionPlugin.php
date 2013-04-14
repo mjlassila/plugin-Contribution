@@ -34,7 +34,8 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
         'item_browse_sql',
         'before_save_item',
         'after_delete_item',
-        'user_profiles_user_page'
+        'user_profiles_user_page',
+        'initialize'
     );
 
     protected $_filters = array(
@@ -173,10 +174,10 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookAdminAppendToPluginUninstallMessage()
     {
-        echo '<p><strong>Warning</strong>: Uninstalling the Contribution plugin
+        echo __('<p><strong>Warning</strong>: Uninstalling the Contribution plugin
             will remove all information about contributors, as well as the
             data that marks which items in the archive were contributed.</p>
-            <p>The contributed items themselves will remain.</p>';
+            <p>The contributed items themselves will remain.</p>');
     }
 
     /**
@@ -321,14 +322,14 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
     {
         $html = '<div class="field">';
         $html .= '<div class="two columns alpha">';
-        $html .= get_view()->formLabel('contributed', 'Contribution Status');
+        $html .= get_view()->formLabel('contributed', __('Contribution Status'));
         $html .= '</div>';
         $html .= '<div class="inputs five columns omega">';
         $html .= '<div class="input-block">';
         $html .= get_view()->formSelect('contributed', null, null, array(
-           ''  => 'Select Below',
-           '1' => 'Only Contributed Items',
-           '0' => 'Only Non-Contributed Items'
+           ''  => __('Select Below'),
+           '1' => __('Only Contributed Items'),
+           '0' => __('Only Non-Contributed Items')
         ));
         $html .= '</div></div></div>';
         echo $html;
@@ -399,15 +400,15 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
         
         $storyType = new ContributionType;
         $storyType->item_type_id = 1;
-        $storyType->display_name = 'Story';
+        $storyType->display_name = __('Story');
         
-        $storyType->file_permissions = 'Allowed';
+        $storyType->file_permissions = __('Allowed');
         $storyType->save();
         $textElement = new ContributionTypeElement;
         $textElement->type_id = $storyType->id;
         $dcTitleElement = $elementTable->findByElementSetNameAndElementName('Dublin Core', 'Title');
         $textElement->element_id = $dcTitleElement->id;
-        $textElement->prompt = 'Title';
+        $textElement->prompt = __('Title');
         $textElement->order = 1;
         $textElement->long_text = false;
         $textElement->save();
@@ -415,22 +416,22 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
         $textElement->type_id = $storyType->id;
         $itemTypeMetadataTextElement = $elementTable->findByElementSetNameAndElementName('Item Type Metadata', 'Text');
         $textElement->element_id = $itemTypeMetadataTextElement->id;
-        $textElement->prompt = 'Story Text';
+        $textElement->prompt = __('Story Text');
         $textElement->order = 2;
         $textElement->long_text = true;
         $textElement->save();
 
         $imageType = new ContributionType;
         $imageType->item_type_id = 6;
-        $imageType->display_name = 'Image';
-        $imageType->file_permissions = 'Required';
+        $imageType->display_name = __('Image');
+        $imageType->file_permissions = __('Required');
         $imageType->save();
 
         $descriptionElement = new ContributionTypeElement;
         $descriptionElement->type_id = $imageType->id;
         $dcDescriptionElement = $elementTable->findByElementSetNameAndElementName('Dublin Core', 'Description');
         $descriptionElement->element_id = $dcDescriptionElement->id;
-        $descriptionElement->prompt = 'Image Description';
+        $descriptionElement->prompt = __('Image Description');
         $descriptionElement->order = 1;
         $descriptionElement->long_text = true;
         $descriptionElement->save();
@@ -444,7 +445,7 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
           if($contributionItem) {
               if(!$contributionItem->public && $item->public) {
                   $item->public = false;
-                  Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Cannot override contributor's desire to leave contribution private", 'error');
+                  Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage(__("Cannot override contributor's desire to leave contribution private"), 'error');
               }
           }          
       }
@@ -468,6 +469,11 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
     
+    public function hookInitialize()
+    {
+        add_translation_source(dirname(__FILE__) . '/languages');
+    }
+    
     public function filterItemCitation($cite,$args){
         $item = $args['item'];
         if(!$item) {
@@ -484,7 +490,7 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
         $uri        = html_escape(record_url($item, 'show', true));
         
         if($contribItem->anonymous) {
-            $cite = "Anonymous, ";
+            $cite = __("Anonymous").', ';
         } else {
             $cite = $contribItem->Contributor->name . ", ";
         }
@@ -500,7 +506,7 @@ class ContributionPlugin extends Omeka_Plugin_AbstractPlugin
    
     public function filterGuestUserLinks($nav)
     {
-        $nav['Contribution'] = array('label'=>'My Contributions',
+        $nav['Contribution'] = array('label'=>__('My Contributions'),
                                      'uri'=> contribution_contribute_url('my-contributions')                
                                     );
         return $nav;

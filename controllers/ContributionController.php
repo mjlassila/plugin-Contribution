@@ -340,15 +340,17 @@ class Contribution_ContributionController extends Omeka_Controller_AbstractActio
         //If this field is empty, don't send the email
         if (!empty($fromAddress)) {
             $contributorMail = new Zend_Mail;
-            $body = "Thank you for your contribution to " . get_option('site_title') . ".\n";
-            $body .= "Your contribution has been accepted and will be preserved in the digital archive. For your records, the permanent URL for your contribution is noted at the end of this email. Please note that contributions may not appear immediately on the website while they await processing by project staff.";
-	        $body .= "Contribution URL (pending review by project staff): " . record_url($item, 'show', true);
+            $body = __("Thank you for your contribution to"). " " . get_option('site_title') . ".\n";
+            $body .= __("Your contribution has been accepted and will be preserved in the digital archive. For your records, the permanent URL for your contribution is noted at the end of this email. Please note that contributions may not appear immediately on the website while they await processing by project staff.");
+	        $body .= __("Contribution URL (pending review by project staff): ") . record_url($item, 'show', true);
             
             
+            $contributorMailAddress = $sitetitle . ' ' . __('Administrator');
+            $contributorMailSubject = "Your" . ' '.$siteTitle. ' '.'Contribution';
             $contributorMail->setBodyText($body);
-            $contributorMail->setFrom($fromAddress, "$siteTitle Administrator");
+            $contributorMail->setFrom($fromAddress, $contributorMailAddress);
             $contributorMail->addTo($toEmail);
-            $contributorMail->setSubject("Your $siteTitle Contribution");
+            $contributorMail->setSubject($contributorMailSubject);
             $contributorMail->addHeader('X-Mailer', 'PHP/' . phpversion());
             try {
                 $contributorMail->send();
@@ -365,14 +367,14 @@ class Contribution_ContributionController extends Omeka_Controller_AbstractActio
                 continue;
             }
             $adminMail = new Zend_Mail;
-            $body = "A new contribution to " . get_option('site_title') . " has been made.";
+            $body = __("A new contribution to ") . get_option('site_title') . __(" has been made.");
             set_theme_base_url('admin');
-            $body .= "Contribution URL for review: " . record_url($item, 'show', true);
+            $body .= __("Contribution URL for review: ") . record_url($item, 'show', true);
             revert_theme_base_url();
             $adminMail->setBodyText($body);
             $adminMail->setFrom($fromAddress, "$siteTitle");
             $adminMail->addTo($toAddress);
-            $adminMail->setSubject("New $siteTitle Contribution");
+            $adminMail->setSubject($contributorMailSubject);
             $adminMail->addHeader('X-Mailer', 'PHP/' . phpversion());
             try {
                 $adminMail->send();
