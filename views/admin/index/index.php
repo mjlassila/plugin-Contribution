@@ -6,7 +6,7 @@
  * @package Contribution
  */
 
-contribution_admin_header(array('Getting Started'));
+contribution_admin_header(array(__('Getting Started')));
 ?>
 
 <?php 

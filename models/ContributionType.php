@@ -18,9 +18,9 @@ require_once 'Mixin/ContributionOrder.php';
  */
 class ContributionType extends Omeka_Record_AbstractRecord
 {
-    const FILE_PERMISSION_DISALLOWED = 'Disallowed';
-    const FILE_PERMISSION_ALLOWED = 'Allowed';
-    const FILE_PERMISSION_REQUIRED = 'Required';
+    const FILE_PERMISSION_DISALLOWED = __('Disallowed');
+    const FILE_PERMISSION_ALLOWED = __('Allowed');
+    const FILE_PERMISSION_REQUIRED = __('Required');
 
     public $item_type_id;
     public $display_name;
@@ -41,7 +41,7 @@ class ContributionType extends Omeka_Record_AbstractRecord
     protected function _validate()
     {
         if(empty($this->item_type_id)) {
-            $this->addError('item_type_id', 'You must select an item type.');
+            $this->addError('item_type_id', __('You must select an item type.'));
         }
     }
 

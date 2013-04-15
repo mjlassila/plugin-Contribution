@@ -7,7 +7,7 @@
  */
 $name = html_escape($contributor->name);
 queue_css_file('contributors');
-contribution_admin_header(array('Contributors', "$name"));
+contribution_admin_header(array(__('Contributors'), "$name"));
 ?>
 
 
@@ -23,7 +23,7 @@ echo $this->partial('contribution-navigation.php');
         <?php if(plugin_is_active('UserProfiles')): ?>
         <?php 
             $this->addHelperPath(USER_PROFILES_DIR . '/helpers', 'UserProfiles_View_Helper_');
-            echo $this->linkToOwnerProfile(array('owner'=>$contributor, 'text'=>"Profile: "));    
+            echo $this->linkToOwnerProfile(array('owner'=>$contributor, 'text'=>__('Profile: ')));    
         ?>
         <?php endif; ?>
     </div>

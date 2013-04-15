@@ -27,7 +27,7 @@ class ContributionTypeElement extends Omeka_Record_AbstractRecord
     protected function _validate()
     {
         if(empty($this->element_id)) {
-            $this->addError('element', 'You must select an element to contribute.');
+            $this->addError('element', __('You must select an element to contribute.'));
         }
     }
 

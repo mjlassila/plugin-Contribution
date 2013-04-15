@@ -6,7 +6,7 @@
  * @package Contribution
  */
 
-contribution_admin_header(array('Contributors'));
+contribution_admin_header(array(__('Contributors')));
 ?>
 
 
@@ -18,17 +18,17 @@ echo $this->partial('contribution-navigation.php');
 <?php
 echo flash();
 if (!has_loop_records('contribution_contributors')):
-    echo '<p>No one has contributed to the site yet.</p>';
+    echo '<p>'.__('No one has contributed to the site yet.'.'</p>';
 else:
 ?>
     <div class="pagination"><?php echo pagination_links(); ?></div>
     <table>
         <thead id="types-table-head">
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Contributed Items</th>
+                <th><?php echo __('ID'); ?></th>
+                <th><?php echo __('Name'); ?></th>
+                <th><?php echo __('Email'); ?></th>
+                <th><?php echo __('Contributed Items'); ></th>
             </tr>
         </thead>
         <tbody id="types-table-body">
@@ -40,7 +40,7 @@ foreach (loop('contribution_contributors') as $contributor):
         <td><?php echo html_escape($contributor->id); ?></td>
         <td><a href="<?php echo url(array('action' => 'show', 'id' => $id)); ?>"><?php echo html_escape($contributor->name); ?></a></td>
         <td><?php echo html_escape($contributor->email); ?></td>
-        <td><a href="<?php echo url("items/browse/contributor_id/$id") ?>">View</a></td>
+        <td><a href="<?php echo url("items/browse/contributor_id/$id") ?>"><?php echo __('View'); ?></a></td>
     </tr>
 <?php endforeach; ?>
         </tbody>

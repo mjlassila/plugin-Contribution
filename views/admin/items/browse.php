@@ -66,7 +66,7 @@ echo item_search_filters();
                  <?php if($contribItem->anonymous && (is_allowed('Contribution_Items', 'view-anonymous') || $contributor->id == current_user()->id)): ?>
                  <span>(<?php echo __('Anonymous'); ?>)</span>
                  <?php endif; ?>
-                 <a href='<?php echo $contributorUrl; ?>'>Info and contributions</a>
+                 <a href='<?php echo $contributorUrl; ?>'><?php echo __('Info and contributions'); ?></a>
                  <?php endif; ?>             
             </td>
             
